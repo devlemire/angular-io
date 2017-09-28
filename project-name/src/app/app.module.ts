@@ -1,10 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
+// Components
 import { AppComponentBasic } from './app.component.basic';
 import { AppComponentSeparate } from './app.component.separate';
+import { Route1 } from './route1/route1.component';
+import { Route2 } from './route2/route2.component';
+import { Route3 } from './route3/route3.component';
 
 // Services
 import { TaskService } from './services/task.service';
@@ -17,12 +21,26 @@ import { TaskService } from './services/task.service';
 
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot([
+      {
+        path: 'route1',
+        component: Route1
+      },
+      {
+        path: 'route2',
+        component: Route2
+      },
+      {
+        path: 'route3',
+        component: Route3
+      }
+    ])
   ],
 
   providers: [ TaskService ],
 
-  bootstrap: [ AppComponentBasic ]
+  bootstrap: [ AppComponentSeparate ]
 })
 
 export class AppModule { }
