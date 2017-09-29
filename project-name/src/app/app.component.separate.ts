@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-// Classes
-import Task from './classes/Task';
 // Services
 import { TaskService } from './services/task.service';
+// Interface
+import { AppInterface } from './interfaces/app.separate.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +10,14 @@ import { TaskService } from './services/task.service';
   styleUrls: [ './app.component.css' ]
 })
 
-export class AppComponentSeparate {
-  tasks: Task[];
-  selectedTask: Task;
-  showNew: boolean;
-  newTask: string;
+export class AppComponentSeparate implements AppInterface {
+  tasks = null;
+  selectedTask = null;
+  showNew = false;
+  newTask = '';
 
   constructor( private taskService: TaskService ) {
     this.tasks = taskService.getTasks();
-    this.selectedTask = null;
-    this.showNew = false;
-    this.newTask = '';
   }
 
   addTask( task ) {

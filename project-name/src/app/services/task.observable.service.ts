@@ -1,48 +1,34 @@
 import { Injectable } from '@angular/core';
 import { tasks } from './data/task.data';
-import { Task } from '../classes/Task';
 
 // HTTP Calls
+import { Observable } from 'rxjs/Observable'
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 
-export class TaskService {
+export class TaskServiceObservable {
   taskId = 2;
   
   constructor( private http: Http ) { }
 
-  getTasks(): Task[] {
-    return tasks;
-  }
-
-  addTask( task: string ): void {
-    tasks.push({ id: this.taskId, task });
-    this.taskId++;
-  }
-
-  removeTask( id: number ): void {
-    let removeIndex = tasks.findIndex( task => task.id === id );
-    tasks.splice( removeIndex, 1 );
-  }
-
-  getTasksHTTP(): Promise<any> {
+  getTasks(): Observable<any> {
     return this.http.get('https://practiceapi.devmountain.com/api/angulario/tasks')
-      .toPromise()
+      .map( response => response.json() );
   }
 
-  addTaskHTTP( task: object ): Promise<any> {
+  addTask( task: string ): Observable<any> {
     return this.http.post(`https://practiceapi.devmountain.com/api/angulario/tasks`, { task })
-      .toPromise()
+      .map( response => response.json() )
   }
 
-  removeTaskHTTP( id: number ): Promise<any> {
+  removeTask( id: number ): Promise<any> {
     return this.http.delete(`https://practiceapi.devmountain.com/api/angulario/tasks?id=${ id }`)
       .toPromise()
   }
 
-  updateTaskHTTP( id: number, task: string ): Promise<any> {
+  updateTask( id: number, task: string ): Promise<any> {
     return this.http.put(`https://practiceapi.devmountain.com/api/angulario/tasks?id=${ id }`, { task })
       .toPromise()
   }

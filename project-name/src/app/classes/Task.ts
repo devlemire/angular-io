@@ -1,1 +1,1 @@
-export default class Task { id: number; task: string; }
+export class Task { id: number; task: string; }

@@ -7,17 +7,20 @@ import { HttpModule } from '@angular/http';
 import { AppComponentBasic } from './app.component.basic';
 import { AppComponentSeparate } from './app.component.separate';
 import { AppComponentHTTP } from './app.component.http';
+import { AppComponentObservable } from './app.component.observable';
 import { Route1 } from './route1/route1.component';
 import { Route2 } from './route2/route2.component';
 import { Route3 } from './route3/route3.component';
 // Services
 import { TaskService } from './services/task.service';
+import { TaskServiceObservable } from './services/task.observable.service';
 
 @NgModule({
   declarations: [
     AppComponentBasic,
     AppComponentSeparate,
     AppComponentHTTP,
+    AppComponentObservable,
     Route1,
     Route2,
     Route3
@@ -43,9 +46,9 @@ import { TaskService } from './services/task.service';
     ])
   ],
 
-  providers: [ TaskService ],
+  providers: [ TaskService, TaskServiceObservable ],
 
-  bootstrap: [ AppComponentHTTP ]
+  bootstrap: [ AppComponentObservable ]
 })
 
 export class AppModule { }

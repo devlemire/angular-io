@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 // Services
-import { TaskService } from './services/task.service';
+import { TaskServiceObservable } from './services/task.observable.service';
 // Interface
-import { AppInterface } from './interfaces/app.http.interface';
+import { AppInterface } from './interfaces/app.observable.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,9 @@ import { AppInterface } from './interfaces/app.http.interface';
   styleUrls: [ './app.component.css' ]
 })
 
-export class AppComponentHTTP implements AppInterface {
-  tasks = null;
-  selectedTask = null;
+export class AppComponentObservable implements AppInterface {
+  tasks: null;
+  selectedTask: null;
   showNew = false;
   newTask = '';
   loading = {
@@ -23,36 +23,38 @@ export class AppComponentHTTP implements AppInterface {
   };
   newTaskString = '';
 
-  constructor( public taskService: TaskService ) {
-    this.getTasks();
+  constructor( public taskService: TaskServiceObservable ) {
+    this.taskService.getTasks().subscribe( data => {
+      this.tasks = data;
+    });
   }
 
-  addTask( task ): void {
+  addTask( task: string ): void {
     this.loading.add = true;
 
-    this.taskService.addTaskHTTP( task ).then( response => {
-      this.tasks = response.json();
+    this.taskService.addTask( task ).subscribe( data => {
+      this.tasks = data;
 
       this.showNew = !this.showNew;
       this.newTask = "";
       this.loading.add = false;
-    }).catch( this.handleError );
+    }, this.handleError ).unsubscribe();
   }
 
-  getTasks(): void {
-    this.loading.get = true;
+  // getTasks(): void {
+  //   this.loading.get = true;
 
-    this.taskService.getTasksHTTP().then( response => {
-      this.tasks = response.json();
+  //   this.taskService.getTasks().then( response => {
+  //     this.tasks = response.json();
 
-      this.loading.get = false;
-    }).catch( this.handleError );
-  }
+  //     this.loading.get = false;
+  //   }).catch( this.handleError );
+  // }
 
   updateTask( id, task ): void {
     this.loading.update = true;
 
-    this.taskService.updateTaskHTTP( id, task ).then( response => {
+    this.taskService.updateTask( id, task ).then( response => {
       this.tasks = response.json();
 
       this.selectedTask = null;
@@ -64,7 +66,7 @@ export class AppComponentHTTP implements AppInterface {
   removeTask( id ): void {
     this.loading.remove = true;
 
-    this.taskService.removeTaskHTTP( id ).then( response => {
+    this.taskService.removeTask( id ).then( response => {
       this.tasks = response.json();
 
       this.selectedTask = null;
