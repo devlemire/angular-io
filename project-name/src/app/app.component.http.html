@@ -3,7 +3,7 @@
 
     <div class="TaskList__parent">
       <div class="TaskList__child">
-  
+        
         <ul *ngIf="!loading.get">
           <li *ngFor="let task of tasks" (click)="selectedTask = task">{{ task.task }}</li>
         </ul>

@@ -23,18 +23,13 @@ export class TaskServiceObservable {
       .map( response => response.json() )
   }
 
-  removeTask( id: number ): Promise<any> {
+  removeTask( id: number ): Observable<any> {
     return this.http.delete(`https://practiceapi.devmountain.com/api/angulario/tasks?id=${ id }`)
-      .toPromise()
+      .map( response => response.json() )
   }
 
-  updateTask( id: number, task: string ): Promise<any> {
+  updateTask( id: number, task: string ): Observable<any> {
     return this.http.put(`https://practiceapi.devmountain.com/api/angulario/tasks?id=${ id }`, { task })
-      .toPromise()
-  }
-
-  handleError( error ) {
-    console.log('Error htting API:', error);
-    return Promise.reject( error.message || error );
+      .map( response => response.json() )
   }
 }

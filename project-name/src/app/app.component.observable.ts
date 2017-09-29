@@ -24,9 +24,7 @@ export class AppComponentObservable implements AppInterface {
   newTaskString = '';
 
   constructor( public taskService: TaskServiceObservable ) {
-    this.taskService.getTasks().subscribe( data => {
-      this.tasks = data;
-    });
+    this.getTasks();
   }
 
   addTask( task: string ): void {
@@ -38,40 +36,39 @@ export class AppComponentObservable implements AppInterface {
       this.showNew = !this.showNew;
       this.newTask = "";
       this.loading.add = false;
-    }, this.handleError ).unsubscribe();
+    }, this.handleError );
   }
 
-  // getTasks(): void {
-  //   this.loading.get = true;
+  getTasks(): void {
+    this.loading.get = true;
 
-  //   this.taskService.getTasks().then( response => {
-  //     this.tasks = response.json();
-
-  //     this.loading.get = false;
-  //   }).catch( this.handleError );
-  // }
+    this.taskService.getTasks().subscribe( data => {
+      this.tasks = data;
+      this.loading.get = false;
+    }, this.handleError );
+  }
 
   updateTask( id, task ): void {
     this.loading.update = true;
 
-    this.taskService.updateTask( id, task ).then( response => {
-      this.tasks = response.json();
+    this.taskService.updateTask( id, task ).subscribe( data => {
+      this.tasks = data;
 
       this.selectedTask = null;
       this.newTaskString = '';
       this.loading.update = false;
-    }).catch( this.handleError );
+    }, this.handleError );
   }
 
   removeTask( id ): void {
     this.loading.remove = true;
 
-    this.taskService.removeTask( id ).then( response => {
-      this.tasks = response.json();
+    this.taskService.removeTask( id ).subscribe( data => {
+      this.tasks = data;
 
       this.selectedTask = null;
       this.loading.remove = false;
-    }).catch( this.handleError );
+    }, this.handleError );
   }
 
   handleError( error ): Promise<Error> {
