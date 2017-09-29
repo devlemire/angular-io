@@ -1,0 +1,58 @@
+<div class="parent">
+  <div class="child">
+
+    <div class="TaskList__parent">
+      <div class="TaskList__child">
+  
+        <ul *ngIf="!loading.get">
+          <li *ngFor="let task of tasks" (click)="selectedTask = task">{{ task.task }}</li>
+        </ul>
+
+        <div *ngIf="loading.get" class="loader__parent">
+          <div class="loader"></div>
+        </div>
+
+      </div>
+
+      <button *ngIf="!loading.get" (click)="showNew = true">Create new Task</button>
+    </div>
+
+    <div *ngIf="selectedTask" class="TaskUpdate__parent">
+      <div *ngIf="!loading.update && !loading.remove" class="TaskUpdate__child">
+        <br />
+        <p>{{ selectedTask.id }}</p>
+        <p>{{ selectedTask.task }}</p>
+        <span>Update Task: </span><input [(ngModel)]="newTaskString" placeholder="{{ selectedTask.task }}" />
+    
+        <button (click)="updateTask( selectedTask.id, newTaskString )">Update Task</button>
+        <button (click)="removeTask( selectedTask.id )">Remove Task</button>
+        <button (click)="selectedTask = null">Cancel</button>
+      </div>
+
+      <div *ngIf="loading.update || loading.remove" class="loader__parent">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+    <div class="TaskCreate__parent">
+      <div *ngIf="showNew" class="TaskCreate__child">
+        <div *ngIf="!loading.add">
+          <br />
+          <span>Task: </span><input [(ngModel)]="newTask" />
+          <button (click)="addTask( newTask )">Create</button>
+          <button (click)="showNew = false">Cancel</button>
+        </div>
+
+        <div *ngIf="loading.add" class="loader__parent">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a routerLink="/route1">Route 1</a>
+  <a routerLink="/route2">Route 2</a>
+  <a routerLink="/route3">Route 3</a>
+
+  <router-outlet></router-outlet>
+</div>

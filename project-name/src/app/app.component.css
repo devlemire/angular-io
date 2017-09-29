@@ -4,7 +4,8 @@
   height: auto;
   min-height: 300px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .child {
@@ -19,4 +20,12 @@
 
 .child ul > li {
   margin: 5px;
+}
+
+.loader__parent {
+  height: 97px;
+  margin: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
