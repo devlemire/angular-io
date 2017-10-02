@@ -13,7 +13,6 @@ import 'rxjs/add/operator/map';
 @Injectable()
 
 export class TaskServiceObservable {
-  private taskId: Number = 2;
   private _tasks: BehaviorSubject<Task[]> = new BehaviorSubject([]);
   public readonly tasks: Observable<Task[]> = this._tasks.asObservable();
 
