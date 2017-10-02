@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 // Services
 import { TaskServiceObservable } from './services/task.observable.service';
 // Interface
-import { AppInterface } from './interfaces/app.observable.interface';
+import { AppObservableInterface } from './interfaces/app.observable.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +10,9 @@ import { AppInterface } from './interfaces/app.observable.interface';
   styleUrls: [ './app.component.css' ]
 })
 
-export class AppComponentObservable implements AppInterface {
-  tasks: null;
-  selectedTask: null;
+export class AppComponentObservable implements AppObservableInterface {
+  tasks = [];
+  selectedTask = null;
   showNew = false;
   newTask = '';
   loading = {
@@ -25,14 +25,16 @@ export class AppComponentObservable implements AppInterface {
 
   constructor( public taskService: TaskServiceObservable ) {
     this.getTasks();
+
+    taskService.tasks.subscribe( data => {
+      this.tasks = data;
+    });
   }
 
   addTask( task: string ): void {
     this.loading.add = true;
 
-    this.taskService.addTask( task ).subscribe( data => {
-      this.tasks = data;
-
+    this.taskService.addTask( task ).subscribe( () => {
       this.showNew = !this.showNew;
       this.newTask = "";
       this.loading.add = false;
@@ -42,8 +44,7 @@ export class AppComponentObservable implements AppInterface {
   getTasks(): void {
     this.loading.get = true;
 
-    this.taskService.getTasks().subscribe( data => {
-      this.tasks = data;
+    this.taskService.getTasks().subscribe( () => {
       this.loading.get = false;
     }, this.handleError );
   }
@@ -51,9 +52,7 @@ export class AppComponentObservable implements AppInterface {
   updateTask( id, task ): void {
     this.loading.update = true;
 
-    this.taskService.updateTask( id, task ).subscribe( data => {
-      this.tasks = data;
-
+    this.taskService.updateTask( id, task ).subscribe( () => {
       this.selectedTask = null;
       this.newTaskString = '';
       this.loading.update = false;
@@ -63,9 +62,7 @@ export class AppComponentObservable implements AppInterface {
   removeTask( id ): void {
     this.loading.remove = true;
 
-    this.taskService.removeTask( id ).subscribe( data => {
-      this.tasks = data;
-
+    this.taskService.removeTask( id ).subscribe( () => {
       this.selectedTask = null;
       this.loading.remove = false;
     }, this.handleError );

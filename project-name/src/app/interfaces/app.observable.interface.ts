@@ -1,18 +1,14 @@
 // Classes
 import { Task } from '../classes/Task';
+import { Loading } from '../classes/Loading';
 // Observables
 import { Observable } from 'rxjs/Observable';
 
-export interface AppInterface {
-  tasks: Observable<Task[]>;
+export interface AppObservableInterface {
+  tasks: Task[];
   selectedTask: Task;
-  showNew: boolean;
-  newTask: string;
-  loading: {
-    add: boolean;
-    get: boolean;
-    update: boolean;
-    remove: boolean;
-  };
+  showNew: Boolean;
+  newTask: String;
+  loading: Loading;
   newTaskString: string;
 }

@@ -1,0 +1,1 @@
+export class Loading { add: Boolean; get: Boolean; update: Boolean; remove: Boolean; }
