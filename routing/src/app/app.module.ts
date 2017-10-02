@@ -10,13 +10,15 @@ import { RouterModule } from '@angular/router';
 import { Route1 } from './route1/route1.component';
 import { Route2 } from './route2/route2.component';
 import { Route3 } from './route3/route3.component';
+import { NestedRoute } from './nestedRoute/nestedRoute.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     Route1,
     Route2,
-    Route3
+    Route3,
+    NestedRoute
   ],
 
   imports: [
@@ -33,6 +35,11 @@ import { Route3 } from './route3/route3.component';
       {
         path: 'route3',
         component: Route3
+      },
+      {
+        path: 'nested',
+        component: NestedRoute,
+        outlet: 'nested'
       }
     ])
   ],
