@@ -1,35 +1,41 @@
 import { Injectable } from '@angular/core';
-import { tasks } from './data/task.data';
+
+// Classes
 import { Task } from '../classes/Task';
 
-// HTTP Calls - Promises
+// HTTP Calls
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
 
-// Marks the class as an injectable, in this case an injectable service.
+// RxJS Observables
+import { Observable } from 'rxjs/Observable'
+import { BehaviorSubject } from 'rxjs';
+import 'rxjs/add/operator/map';
+
 @Injectable()
 
 export class TaskService {
-  // Constructor is used as an injection site for http
+  private _tasks: BehaviorSubject<Task[]> = new BehaviorSubject([]);
+  public readonly tasks: Observable<Task[]> = this._tasks.asObservable();
+
   constructor( private http: Http ) { }
 
-  getTasks(): Promise<any> {
+  getTasks(): Observable<any> {
     return this.http.get('https://practiceapi.devmountain.com/api/angulario/tasks')
-      .toPromise()
+      .map( response => this._tasks.next( response.json() ) );
   }
 
-  addTask( task: string ): Promise<any> {
+  addTask( task: string ): Observable<any> {
     return this.http.post(`https://practiceapi.devmountain.com/api/angulario/tasks`, { task })
-      .toPromise()
+      .map( response => this._tasks.next( response.json() ) );
   }
 
-  removeTask( id: number ): Promise<any> {
+  removeTask( id: number ): Observable<any> {
     return this.http.delete(`https://practiceapi.devmountain.com/api/angulario/tasks?id=${ id }`)
-      .toPromise()
+      .map( response => this._tasks.next( response.json() ) )
   }
 
-  updateTask( id: number, task: string ): Promise<any> {
+  updateTask( id: number, task: string ): Observable<any> {
     return this.http.put(`https://practiceapi.devmountain.com/api/angulario/tasks?id=${ id }`, { task })
-      .toPromise()
+      .map( response => this._tasks.next( response.json() ) )
   }
 }

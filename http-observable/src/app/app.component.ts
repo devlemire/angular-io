@@ -13,7 +13,7 @@ import { Task } from './classes/Task';
 })
 
 export class AppComponent implements AppInterface {
-  tasks = null;
+  tasks = [];
   selectedTask = null;
   showNew = false;
   newTaskModel = '';
@@ -26,41 +26,52 @@ export class AppComponent implements AppInterface {
   }
 
   constructor( private taskService: TaskService ) {
-    taskService.getTasks().then( response => {
-      this.tasks = response.json();
-      this.loading.get = false;
+    this.getTasks();
+
+    taskService.tasks.subscribe( data => {
+      this.tasks = data;
     });
+  }
+
+  getTasks(): void {
+    this.loading.get = true;
+
+    this.taskService.getTasks().subscribe( () => {
+      this.loading.get = false;
+    }, this.handleError );
   }
 
   addTask( task: string ): void {
     this.loading.add = true;
 
-    this.taskService.addTask( task ).then( response => {
-      this.tasks = response.json();
+    this.taskService.addTask( task ).subscribe( () => {
       this.showNew = !this.showNew;
       this.newTaskModel = "";
       this.loading.add = false;
-    });
+    }, this.handleError );
   }
 
   removeTask( id: number ): void {
     this.loading.remove = true;
 
-    this.taskService.removeTask( id ).then( response => {
-      this.tasks = response.json();
+    this.taskService.removeTask( id ).subscribe( () => {
       this.selectedTask = null;
       this.loading.remove = false;
-    });
+    }, this.handleError );
   }
 
   updateTask( id: number, task: string ): void {
     this.loading.update = true;
 
-    this.taskService.updateTask( id, task ).then( response => {
-      this.tasks = response.json();
+    this.taskService.updateTask( id, task ).subscribe( () => {
       this.selectedTask = null;
       this.updateTaskModel = '';
       this.loading.update = false;
-    });
+    }, this.handleError );
+  }
+
+  handleError( error ): Promise<Error> {
+    console.log('Error hitting API:', error);
+    return Promise.reject( error.message || error );
   }
 }

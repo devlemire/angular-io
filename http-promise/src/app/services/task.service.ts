@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { tasks } from './data/task.data';
 import { Task } from '../classes/Task';
 
 // HTTP Calls - Promises
