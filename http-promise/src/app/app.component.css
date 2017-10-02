@@ -1,0 +1,56 @@
+.parent {
+  width: 100%;
+  padding: 10px;
+  height: auto;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.child {
+  width: auto;
+  min-width: 465px;
+  box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+  background-color: #F2F2F2;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: auto;
+  padding: 10px 10px 15px 10px;
+}
+
+.child ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.child ul > li {
+  margin: 5px 0px 10px 0px;
+  background-color: #FFF;
+  padding: 5px;
+  box-shadow: 0px 1px 0.3px 0px rgba(0,0,0,0.75);
+  cursor: pointer;
+}
+
+.Task__btn-create {
+  border-radius: 10px;
+  border: none;
+  font-size: 21px;
+  padding: 4px 20px;
+  box-shadow: 0px 1px 0.3px 0px rgba(0,0,0,0.75)
+}
+
+.loader__parent {
+  height: 97px;
+  margin: 35px 0px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
