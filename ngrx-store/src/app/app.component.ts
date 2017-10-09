@@ -38,7 +38,7 @@ export class AppComponent {
   }
 
   subtractFive() {
-    this.store.dispatch({ type: SUBTRACT_ONE });
+    this.store.dispatch({ type: SUBTRACT_FIVE });
   }
 
   reset() {
