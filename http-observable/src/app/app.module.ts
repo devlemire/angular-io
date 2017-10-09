@@ -12,10 +12,12 @@ import { HttpModule } from '@angular/http';
 
 // Component(s)
 import { AppComponent } from './app.component';
+import { View2 } from './view2/view2.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    View2
   ],
   imports: [
     BrowserModule,
